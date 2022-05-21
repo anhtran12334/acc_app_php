@@ -1,12 +1,8 @@
 <?php
     require "./../connectSQL.php";
-    $color = $_POST['colorname'];
-    $sql = "INSERT INTO `colors`(`name`) VALUES ('$color')";
-    if(isset($_POST['upload'])){
-    $qr = mysqli_query($conn, $sql);
-    header("Location : ListColor.php");
+    
     //var_dump($qr);
-    }
+    
     $sql_ven = "select * from vendors";
     $qr_ven = mysqli_query($conn, $sql_ven);
     $sql_user = "select * from users";
@@ -31,15 +27,16 @@
         $qr_idm = mysqli_query($conn, $sql_id);
         $row_idm = mysqli_fetch_assoc($qr_idm);
         //var_dump($row_idm['id']);
-        $idm = $row_idm['id'];
+        $idm = $row_idm['id']; // id cua imporation
         //
         //
         $sql_impro = "INSERT INTO `importation_products`(`product_id`, `importation_id`, `quantity`, `price`) VALUES ";
         
+        echo "<pre>" . print_r($_POST, true) . "</pre>";
         $products = $_POST['product'];
-        $products = array_values($products);
-        $quantity = $_POST['quantity'];
-        $price= $_POST['price'];
+        $products = array_values($products);// convert array de lap for
+        // $quantity = $_POST['quantity'];
+        // $price= $_POST['price'];
         for($i = 0 ; $i < count($products) ; $i++){
             $product_id = $products[$i]['id'];
             $quantity = $products[$i]['quantity'];
@@ -47,7 +44,7 @@
             $sql_impro .= " ($product_id,$idm, $quantity, $price) ,";
             //var_dump($products[$i]);
         }
-        $sql_impro = substr_replace($sql_impro ,"", -1);
+        $sql_impro = substr_replace($sql_impro ,"", -1);//loai bo dau , cuoi cung
         var_dump($sql_impro);
         $qr_impro = mysqli_query($conn,$sql_impro);
         var_dump($qr_impro);
@@ -88,7 +85,7 @@
             <div class="content_basic">
                 <p>Basic info</p>
                 <hr/>
-                <form method ="POST" action="">
+                <form method ="POST" action="" id="createForm">
                     <label>Nhà cung cấp</label>
                     <select name="vendors">
                         <?php 
@@ -111,49 +108,28 @@
 
 
                     
-                    <p>Danh sách sản phẩm muốn nhập</p>
-                    <lable>Tên Sản phẩm</lable>
-                    <select name="product[product1][id]">
-                        <?php 
-                            while($row_pro = $qr_pro->fetch_assoc()){
+                    <h2 class="">Danh sách sản phẩm muốn nhập</h2>
+                    
 
-                        ?>
-                            <option value="<?php echo $row_pro['id'] ?>"><?php echo $row_pro['name'] ?></option>
-
-                           <?php } 
-                                mysqli_data_seek($qr_pro, 0);
-                           ?>
-                        
-                    </select><br><br>
-                    <lable>Số lượng </lable>
-                    <input type="text" name="product[product1][quantity]" class="col-4"><br/><br>
-                    <lable>Đơn giá</lable>
-                    <input type="text" name="product[product1][price]" class="col-4"><br/><br>
-
-                    <lable>Tên Sản phẩm</lable>
-                    <select name="product[product2][id]">
-                        <?php 
-                            while($row_pro = $qr_pro->fetch_assoc()){
-                        ?>
-                            <option value="<?php echo $row_pro['id'] ?>"><?php echo $row_pro['name'] ?></option>
-
-                           <?php } 
-                                mysqli_data_seek($qr_pro, 0);
-                           ?>
-                           
-                        
-                    </select><br><br>
-                    <lable>Số lượng </lable>
-                    <input type="text" name="product[product2][quantity]" class="col-4"><br/><br>
-                    <lable>Đơn giá</lable>
-                    <input type="text" name="product[product2][price]" class="col-4"><br/><br>
-
-
-
-                    <p>Thêm sản phẩm</p>
-                    <button name="upload" type="submit" class="end text-right blue" >Lưu</button>
-
-                
+                    <div class="item-row mb-5">
+                        <label>Tên Sản phẩm</label>
+                        <select name="product[product0][id]">
+                            <?php 
+                                while($row_pro = $qr_pro->fetch_assoc()){
+                            ?>
+                                <option value="<?php echo $row_pro['id'] ?>"><?php echo $row_pro['name'] ?></option>
+                            <?php } 
+                                    mysqli_data_seek($qr_pro, 0);
+                            ?>
+                        </select><br><br>
+                        <label>Số lượng </label>
+                        <input type="text" name="product[product0][quantity]" class="col-4"><br/><br>
+                        <label>Đơn giá</label>
+                        <input type="text" name="product[product0][price]" class="col-4"><br/><br>
+                    </div>
+                    <br>
+                    <button id="btnAddItem" type="button" class="btn btn-primary">+</button><br>
+                    <button id="btnSubmit" name="upload" type="submit" class="end text-right blue" >Lưu</button>
                 </form>
                 
             </div>
@@ -173,4 +149,38 @@
 <script src="./../../../bai9_jquery/bai9_jquery/js/jquery.min.js"></script>
 <script src="../script/Dasboard.js"></script>
 
+<script>
+    let indexOfImportationItem = 1;
+     handleAddNewItem(indexOfImportationItem);
+    function handleAddNewItem(indexOfImportationItem){
+        const btnAdd = document.getElementById('btnAddItem');
+        const form = document.getElementById('createForm');
+
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        $('#btnAddItem').click(function(){
+            $.ajax({
+                url: '../get-list-product-ajax.php',
+                success: function(result) {
+                    const content = `
+                    <div class="item-row mb-5">
+                    <label>Tên Sản phẩm</label>
+                    <select name="product[product${indexOfImportationItem}]"[id]">
+                        ${result}
+                    </select><br><br>
+                    <label>Số lượng </label>
+                    <input type="text" name="product[product${indexOfImportationItem}]"[quantity]" class="col-4"><br/><br>
+                    <label>Đơn giá</label>
+                    <input type="text" name="product[product${indexOfImportationItem}]"[price]" class="col-4"><br/><br>
+                    </div>
+                    `;
+                    $(content).insertBefore('#btnAddItem');
+                    indexOfImportationItem = indexOfImportationItem + 1;
+                }
+            })
+        });
+
+
+    }
+</script>                            
 </html>

@@ -22,7 +22,11 @@
             $_SESSION["user_name"] = $row["user_name"];
             $_SESSION["first_name"] = $row["first_name"];
             $_SESSION["last_name"] = $row["last_name"];
-            $_SESSION["quantity"] = 0;
+            $_SESSION["email"] = $row["email"];
+            $_SESSION["address"] = $row["address"];
+            $_SESSION["full_name"] = $row["full_name"];
+            $_SESSION["phone"] = $row["phone"];
+            
             if ( strcasecmp($row["role"], "admin")==0 || strcasecmp($row["role"], "manager")==0 ) {
                 header('Location:./../ADMIN/layout/Dasboard/dasboard.php');
             } else{

@@ -2,7 +2,7 @@
     $username = "root";
     $password = "12345678";
     $host = "localhost";
-    $database = "acc_smartphone";
+    $database = "smartphone2";
     
     // Create connection
     $conn = mysqli_connect($host, $username, $password, $database);

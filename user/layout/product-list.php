@@ -37,7 +37,7 @@
 </head>
 <body>
  <!-- Header -->
-<?php include 'common/header.html'?>
+<?php include 'common/header.php'?>
 
 <main>
     <div class="link">  
@@ -86,63 +86,53 @@
         
     </div>
     <div class="list">
+        <h4 class="container my-5">Iphone</h4>
         <div class="container row">
-            <h4 style="margin:20px 0;">Iphone</h4>
-            <div class="item col">
-                <a href="./Detail_Product.html">
-                <div style="display:flex"><div><i class="fa-brands fa-apple"></i></div><div>Authorities <br> Reseller</div></div>
-                <div><image src="../img/iphone13.png"></div>
-                <div class="text"><p><strong>Apple Iphone 13 - Chính hãng<br> VN/A</strong></p></div>
-                <div class="text"><Strong style="color:red" >21,250,000 đ</Strong></div>
-                <div class="text"><strong style="background-color:orange;color:white;">KM</strong><p>Sẵn sàng giảm thêm
-                    tới  1.500.000 đ... <strong style="color:orange"> VÀ % KM KHÁC</strong>
-                </p></div>
-                </a>
-            </div>
-            <div class="item col">
-                <a href="./Detail_Product.html">
-                <div style="display:flex"><div><i class="fa-brands fa-apple"></i></div><div>Authorities <br> Reseller</div></div>
-                <div><image src="../img/iphone13.png"></div>
-                <div class="text"><p><strong>Apple Iphone 13 - Chính hãng<br> VN/A</strong></p></div>
-                <div class="text"><Strong style="color:red" >21,250,000 đ</Strong></div>
-                <div class="text"><strong style="background-color:orange;color:white;">KM</strong><p>Sẵn sàng giảm thêm
-                    tới  1.500.000 đ... <strong style="color:orange"> VÀ % KM KHÁC</strong>
-                </p></div>
-                </a>
-            </div>
-            <div class="item col">
-                <a href="./Detail_Product.html">
-                <div style="display:flex"><div><i class="fa-brands fa-apple"></i></div><div>Authorities <br> Reseller</div></div>
-                <div><image src="../img/iphone13.png"></div>
-                <div class="text"><p><strong>Apple Iphone 13 - Chính hãng<br> VN/A</strong></p></div>
-                <div class="text"><Strong style="color:red" >21,250,000 đ</Strong></div>
-                <div class="text"><strong style="background-color:orange;color:white;">KM</strong><p>Sẵn sàng giảm thêm
-                    tới  1.500.000 đ... <strong style="color:orange"> VÀ % KM KHÁC</strong>
-                </p></div>
-                </a>
-            </div>
-            <div class="item col">
-                <a href="./Detail_Product.html">
-                <div style="display:flex"><div><i class="fa-brands fa-apple"></i></div><div>Authorities <br> Reseller</div></div>
-                <div><image src="../img/iphone13.png"></div>
-                <div class="text"><p><strong>Apple Iphone 13 - Chính hãng<br> VN/A</strong></p></div>
-                <div class="text"><Strong style="color:red" >21,250,000 đ</Strong></div>
-                <div class="text"><strong style="background-color:orange;color:white;">KM</strong><p>Sẵn sàng giảm thêm
-                    tới  1.500.000 đ... <strong style="color:orange"> VÀ % KM KHÁC</strong>
-                </p></div>
-                </a>
-            </div>
-            <div class="item col">
-                <a href="./Detail_Product.html">
-                <div style="display:flex"><div><i class="fa-brands fa-apple"></i></div><div>Authorities <br> Reseller</div></div>
-                <div><image src="../img/iphone13.png"></div>
-                <div class="text"><p><strong>Apple Iphone 13 - Chính hãng<br> VN/A</strong></p></div>
-                <div class="text"><Strong style="color:red" >21,250,000 đ</Strong></div>
-                <div class="text"><strong style="background-color:orange;color:white;">KM</strong><p>Sẵn sàng giảm thêm
-                    tới  1.500.000 đ... <strong style="color:orange"> VÀ % KM KHÁC</strong>
-                </p></div>
-                </a>
-            </div>
+
+            <?php
+             $categorySlug = "";
+                $sql = "";
+                if (isset($_GET["keyword"]) && isset($_GET["category"])) {
+                    $keyword = $_GET["keyword"];
+                    $categorySlug = $_GET["category"];
+                    $sql = "SELECT p.name, p.price, p.thumb, p.short_desc , p.slug FROM products p JOIN categories c ON c.id=p.category_id WHERE (p.name LIKE '%$keyword%' OR p.short_desc LIKE '%$keyword%') AND c.slug='$categorySlug'";
+                }
+                if (isset($_GET["category"])) {
+                    $categorySlug = $_GET["category"];
+                    $sql = "SELECT p.name, p.price, p.thumb, p.short_desc, p.slug FROM products p JOIN categories c ON c.id=p.category_id WHERE c.slug='$categorySlug'";
+                } 
+                if (isset($_GET["keyword"])) {
+                    $keyword = $_GET["keyword"];
+                    $sql = "SELECT name, price, thumb, short_desc, slug FROM products WHERE name LIKE '%$keyword%' OR short_desc LIKE '%$keyword%'";
+                }
+                $result = mysqli_query($conn, $sql);
+						while ($row = mysqli_fetch_assoc($result)) {
+							echo "
+							<div class='item col col-sm-3'>
+                                <div class='parent-wrapper'>
+								<a href='/ACC_APP/user/layout/product-detail.php?slug=" . $row['slug'] . "' class='wrapper'>
+									<div class='img-wrapper'>
+										<img
+											src='../../admin/img/" . $row["thumb"]
+											. "'alt='" . $row["short_desc"] . 
+										"'/>" .
+									"</div>
+									<div class='info'>
+										<div class='name'>" . 
+											 $row["name"]
+										. "</div>
+										<span class='price'>".  $row["price"] ." ₫</span>
+									</div>
+									<div class='note'>
+										<span class='badge badge-primary'>KM</span>
+										<span>Sẵn hàng, giảm thêm tới 1.500.000đ ...</span>
+									</div>
+								</a>
+                                </div>
+							</div>
+							";
+						}
+					?>
         </div>
         <div class="plus">Xem thêm sản phẩm</div>
     </div>
@@ -165,6 +155,6 @@
 </div>
 </main> 
 <!-- Footer -->
-<?php include 'common/footer.html'?>
+<?php include 'common/footer.php'?>
 </body>
 </html>

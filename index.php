@@ -1,10 +1,12 @@
-<?php include 'user/layout/connectSQL.php'; 
+<?php 
 	session_start();
-?>
-<!-- apple -->
-<!-- hot (sp noi bat) -->
-<!-- sp moi -->
-<!-- ban chay -->
+	include 'common/connectSQL.php';
+
+	if (isset($_POST["logout"])) {
+		session_destroy();
+		header("Location:./");
+	}
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -41,10 +43,56 @@
 	<body>
 		
 		<!-- header -->
-		<?php 
-			include "./user/layout/common/header.php";
-		?>
-		
+		<header class="header">
+			<div class="top">
+				<div class="container">
+					<ul>
+						<li><a href="">Liên hệ</a></li>
+						<li><a href="">Giới thiệu</a></li>
+						<li class="<?php echo !isset($_SESSION["ID"]) ? 'on' : 'off' ?>"><a href="user/layout/register.php">Đăng ký</a></li>
+						<li class="<?php echo !isset($_SESSION["ID"]) ? 'on' : 'off' ?>"><a href="common/login.php">Đăng nhập</a></li>
+
+						<li class="<?php echo isset($_SESSION["ID"]) ? 'on' : 'off' ?>" ><?php echo $_SESSION["user_name"]; ?></li>
+						<li class="<?php echo isset($_SESSION["ID"]) ? 'on' : 'off' ?>">
+							<form method="POST" id="logoutForm">
+								<input type="submit" name="logout" value="Đăng xuất">
+							</form>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="middle">
+				<div class="container">
+					<a href="" class="logo"><img src="" alt="" /><i class="fa-solid fa-square-caret-right"></i>ACC smart phone</a>
+					<form class="search" method="GET" action="user/layout/product-list.php">
+						<input type="text" name="keyword" placeholder="Hôm nay bạn cần tìm gì?" />
+						<button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+					</form>
+					<div class="header-cart">
+						<a href="user/layout/cart.php">
+							<i class="fa-solid fa-cart-shopping"></i>
+							<span class="amount badge badge-primary">1</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="bottom">
+				<div class="container">
+					<ul>
+						<?php
+						$sql = "SELECT * FROM categories";
+
+						$result = mysqli_query($conn, $sql);
+						while ($row = mysqli_fetch_assoc($result)) {
+								echo "<li><a href='user/layout/product-list.php?category=" . $row["slug"] . "'>" . $row["name"] . "</a></li>";
+							}
+						?>
+					</ul>
+				</div>
+			</div>
+		</header>
+
+
 		<main class="main-content container">
 			<!-- Slider -->
 			<section class="main-slider-container pt-3">
@@ -179,16 +227,17 @@
 				<div class="sub-header mb-3">Apple</div>
 				<div class="products row">
 					<?php
-						$sql = "SELECT p.name, p.price, p.thumb, p.short_desc FROM products p join categories c on p.category_id=c.id WHERE c.name='apple' LIMIT 10";
+						$sql = "SELECT p.name, p.price, p.thumb, p.short_desc, p.slug FROM products p join categories c on p.category_id=c.id WHERE c.name='apple' LIMIT 10";
 
 						$result = mysqli_query($conn, $sql);
 						while ($row = mysqli_fetch_assoc($result)) {
 							echo "
-							<div class='item col'>
-								<a href='user/layout/product-detail.php' class='wrapper'>
+							<div class='item col col-sm-3'>
+								<div class='parent-wrapper'>
+								<a href='user/layout/product-detail.php?name=" . $row['slug'] . "' class='wrapper'>
 									<div class='img-wrapper'>
 										<img
-											src='" . $row["thumb"]
+											src='./admin/img/" . $row["thumb"]
 											. "'alt='" . $row["short_desc"] . 
 										"'/>" .
 									"</div>
@@ -203,31 +252,11 @@
 										<span>Sẵn hàng, giảm thêm tới 1.500.000đ ...</span>
 									</div>
 								</a>
+								</div>
 							</div>
 							";
 						}
 					?>
-					
-					<div class="item col">
-						<a href="#" class="wrapper">
-							<div class="img-wrapper">
-								<img
-									src="https://cdn.hoanghamobile.com/i/productlist/ts/Uploads/2021/04/22/image-removebg-preview.png"
-									alt='Apple iPad Pro M1 12.9"- (2021) - Wifi - 128GB - Chính hãng Apple Việt Nam'
-								/>
-							</div>
-							<div class="info">
-								<div class="name">
-									Apple iPad Pro M1 12.9"- (2021) - Wifi - 128GB - Chính hãng Apple Việt Nam
-								</div>
-								<span class="price">24,790,000 ₫</span>
-							</div>
-							<div class="note">
-								<span class="badge badge-primary">KM</span>
-								<span>Sẵn hàng, giảm thêm tới 1.500.000đ ...</span>
-							</div>
-						</a>
-					</div>
 				</div>
 			</section>
 
@@ -236,16 +265,17 @@
 				<div class="sub-header mb-3">Sản phẩm nổi bật</div>
 				<div class="products row">
 					<?php
-						$sql = "SELECT p.name, p.price, p.thumb, p.short_desc FROM products p WHERE hot=true LIMIT 10";
+						$sql = "SELECT p.name, p.price, p.thumb, p.short_desc, p.slug FROM products p WHERE hot=true LIMIT 10";
 
 						$result = mysqli_query($conn, $sql);
 						while ($row = mysqli_fetch_assoc($result)) {
 							echo "
-							<div class='item col'>
-								<a href='user/layout/product-detail.php' class='wrapper'>
+							<div class='item col col-sm-3'>
+								<div class='parent-wrapper'>
+								<a href='user/layout/product-detail.php?name=" . $row['slug'] . "' class='wrapper'>
 									<div class='img-wrapper'>
 										<img
-											src='" . $row["thumb"]
+											src='./admin/img/" . $row["thumb"]
 											. "'alt='" . $row["short_desc"] . 
 										"'/>" .
 									"</div>
@@ -260,31 +290,11 @@
 										<span>Sẵn hàng, giảm thêm tới 1.500.000đ ...</span>
 									</div>
 								</a>
+								</div>
 							</div>
 							";
 						}
 					?>
-					
-					<div class="item col">
-						<a href="#" class="wrapper">
-							<div class="img-wrapper">
-								<img
-									src="https://cdn.hoanghamobile.com/i/productlist/ts/Uploads/2021/04/22/image-removebg-preview.png"
-									alt='Apple iPad Pro M1 12.9"- (2021) - Wifi - 128GB - Chính hãng Apple Việt Nam'
-								/>
-							</div>
-							<div class="info">
-								<div class="name">
-									Apple iPad Pro M1 12.9"- (2021) - Wifi - 128GB - Chính hãng Apple Việt Nam
-								</div>
-								<span class="price">24,790,000 ₫</span>
-							</div>
-							<div class="note">
-								<span class="badge badge-primary">KM</span>
-								<span>Sẵn hàng, giảm thêm tới 1.500.000đ ...</span>
-							</div>
-						</a>
-					</div>
 				</div>
 			</section>
 
@@ -293,16 +303,17 @@
 				<div class="sub-header mb-3">Sản phẩm bán chạy</div>
 				<div class="products row">
 					<?php
-						$sql = "SELECT name, price, thumb, short_desc FROM products ORDER BY quantity_sold DESC LIMIT 10";
+						$sql = "SELECT name, price, thumb, short_desc, slug FROM products ORDER BY quantity_sold DESC LIMIT 10";
 
 						$result = mysqli_query($conn, $sql);
 						while ($row = mysqli_fetch_assoc($result)) {
 							echo "
-							<div class='item col'>
-								<a href='user/layout/product-detail.php' class='wrapper'>
+							<div class='item col col-sm-3'>
+								<div class='parent-wrapper'>
+								<a href='user/layout/product-detail.php?name=" . $row['slug'] . "' class='wrapper'>
 									<div class='img-wrapper'>
 										<img
-											src='" . $row["thumb"]
+											src='./admin/img/" . $row["thumb"]
 											. "'alt='" . $row["short_desc"] . 
 										"'/>" .
 									"</div>
@@ -317,31 +328,11 @@
 										<span>Sẵn hàng, giảm thêm tới 1.500.000đ ...</span>
 									</div>
 								</a>
+								</div>
 							</div>
 							";
 						}
 					?>
-					
-					<div class="item col">
-						<a href="#" class="wrapper">
-							<div class="img-wrapper">
-								<img
-									src="https://cdn.hoanghamobile.com/i/productlist/ts/Uploads/2021/04/22/image-removebg-preview.png"
-									alt='Apple iPad Pro M1 12.9"- (2021) - Wifi - 128GB - Chính hãng Apple Việt Nam'
-								/>
-							</div>
-							<div class="info">
-								<div class="name">
-									Apple iPad Pro M1 12.9"- (2021) - Wifi - 128GB - Chính hãng Apple Việt Nam
-								</div>
-								<span class="price">24,790,000 ₫</span>
-							</div>
-							<div class="note">
-								<span class="badge badge-primary">KM</span>
-								<span>Sẵn hàng, giảm thêm tới 1.500.000đ ...</span>
-							</div>
-						</a>
-					</div>
 				</div>
 			</section>
 
@@ -486,6 +477,6 @@
 			</section>
 		</main>
 
-		<?php include 'user/layout/common/footer.html'?>
+		<?php include 'user/layout/common/footer.php'?>
 	</body>
 </html>
