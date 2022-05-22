@@ -13,9 +13,29 @@
         $sql_u = "UPDATE `orders` SET `status`= 2 WHERE id =". $_GET['id'];
         $qr_u = mysqli_query($conn, $sql_u);
         
-        //var_dump($qr_u);
-        header("Location:./account.php");
-    }
+
+        // update số lương sản phẩm
+        $sql_p = "SELECT * FROM order_products join products on products.id = order_products.product_id where order_id =". $_GET['id'];
+        $qr_p = mysqli_query($conn,$sql_p);
+        var_dump($qr_p);
+        var_dump($_GET['id']);
+        //var_dump($qr_p);
+        // $row_p = mysqli_fetch_array($qr_p);
+        // $products = $_POST['product'];
+        // $products = array_values($products);
+        while($row_p = mysqli_fetch_row($qr_p)){
+            //var_dump($row_p[3]);
+            $sql_update = "UPDATE `products` join order_products on products.id = order_products.product_id join orders on orders.id = order_products.order_id SET products.quantity = products.quantity - order_products.quantity WHERE orders.id = ".$_GET['id'] ." AND products.id = $row_p[3]";
+            $qr_update = mysqli_query($conn, $sql_update);
+            //var_dump($sql_update);
+            //var_dump($qr_update);
+            header("Location:./account.php");
+        }
+        }
+
+       
+        
+    
 ?>
 
 <!DOCTYPE html>

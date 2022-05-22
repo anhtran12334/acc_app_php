@@ -6,24 +6,29 @@
 	// làm rỗng giỏ hàng
 	if(isset($_GET['delcart'] ) && $_GET['delcart'] == 1){
 		unset($_SESSION['giohang']);
+		header("Location:./cart.php");
 	}
 	// Xóa sản phẩm trong giỏ hàng
 	if(isset($_GET['delid'] ) && ($_GET['delid'] >= 0)){
 		array_splice($_SESSION['giohang'], $_GET['delid'],1);
+		header("Location:./cart.php");
 	}
 	//Them san pham vao gio hang 
 	if(isset($_GET['plus'] ) && ($_GET['plus'] >= 0)){
 		//array_splice($_SESSION['giohang'], $_GET['delid'],1);
 		$_SESSION['giohang'][$_GET['plus']][3]++;
+		header("Location:./cart.php");
 	}
 	
 	// bot
 	if(isset($_GET['minus'] ) && ($_GET['minus'] >= 0)){
 		//array_splice($_SESSION['giohang'], $_GET['delid'],1);
 		$_SESSION['giohang'][$_GET['minus']][3]--;
+		header("Location:./cart.php");
 	
 	if($_SESSION['giohang'][$_GET['minus']][3] == 0){
 		array_splice($_SESSION['giohang'], $_GET['minus'],1);
+		header("Location:./cart.php");
 	}
 }
 	if(isset($_POST['save']) && $_POST['save']){
