@@ -16,12 +16,16 @@
 				<li class="<?php echo !isset($_SESSION["ID"]) ? 'on' : 'off' ?>"><a href="register.php">Đăng ký</a></li>
 				<li class="<?php echo !isset($_SESSION["ID"]) ? 'on' : 'off' ?>"><a href="../../common/login.php">Đăng nhập</a></li>
 
-				<li class="<?php echo isset($_SESSION["ID"]) ? 'on' : 'off' ?>" ><?php echo $_SESSION["user_name"]; ?></li>
-				<li class="<?php echo isset($_SESSION["ID"]) ? 'on' : 'off' ?>">
+				<!-- <li class="<?php echo isset($_SESSION["ID"]) ? 'on' : 'off' ?>" ><?php echo $_SESSION["user_name"]; ?></li> -->
+				<!-- <li class="<?php echo isset($_SESSION["ID"]) ? 'on' : 'off' ?>">
 					<form method="POST" id="logoutForm">
 						<input type="submit" name="logout" value="Đăng xuất">
 					</form>
+				</li> -->
+				<li class="<?php echo isset($_SESSION["ID"]) ? 'on' : 'off' ?>" >
+				<a href="/ACC_APP/user/layout/account.php" style="color: white;margin-top: 7px;">Tài Khoản <i class="fa-solid fa-user"></i></a>
 				</li>
+			
 			</ul>
 		</div>
 	</div>
@@ -37,7 +41,7 @@
 				for($i = 0; $i < sizeof($_SESSION['giohang']);$i++){
 					$tongsl += $_SESSION['giohang'][$i][3];
 				}
-				var_dump($_SESSION['giohang'][$i][3]);
+				//var_dump($_SESSION['giohang'][$i][3]);
 			?>
 			<div class="header-cart">
 				<a href="cart.php">

@@ -166,6 +166,15 @@
 			</div>
 			
 			<?php 
+				if(isset($_SESSION['giohang']) && (is_array($_SESSION['giohang']))){
+			
+					$tong = 0;
+					for($i = 0 ; $i < sizeof($_SESSION['giohang']) ; $i ++){
+						//var_dump($_SESSION['giohang'][$i][4]);
+						$tt = $_SESSION['giohang'][$i][1] * $_SESSION['giohang'][$i][3];
+						$tong += $tt;
+					}
+				}
 				if(isset($_POST['upload'])){
 				$name = $_SESSION['ID'];
 				$email = $_POST['email'];
@@ -173,7 +182,8 @@
 				$address = $_POST['address'];
 				$date = gmdate("Y-m-d H:i:s", time()+7*60*60);
 				// chen vao bang don hang
-				$sql_insert = "INSERT INTO `orders`(`user_id`, `address`, `phone`, `email`, `created_date`) VALUES ($name,'$address','$phone','$email','$date')";
+				//var_dump($tong);
+				$sql_insert = "INSERT INTO `orders`(`user_id`, `address`, `phone`, `email`,`total_price`, `created_date`) VALUES ($name,'$address','$phone','$email',$tong,'$date')";
 				$qr_insert = mysqli_query($conn,$sql_insert);
 				//var_dump($qr_insert);
 				$row_up = mysqli_fetch_array($qr_insert);
@@ -196,7 +206,13 @@
 				//var_dump($sql_inserto);
 				$qr_inserto = mysqli_query($conn,$sql_inserto);
 				//var_dump($qr_inserto);
+
+				unset($_SESSION['giohang']);
+
+				header("Location:./../../index.php");
+				
 			}
+			
 			?>
 			
 			<div class="cart-form">
@@ -246,7 +262,7 @@
 	
 			</div>
 		</div>
-
+		
 		<!-- Footer -->
 		<?php include 'common/footer.php'?>
 	</body>

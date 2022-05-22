@@ -52,11 +52,10 @@
 						<li class="<?php echo !isset($_SESSION["ID"]) ? 'on' : 'off' ?>"><a href="user/layout/register.php">Đăng ký</a></li>
 						<li class="<?php echo !isset($_SESSION["ID"]) ? 'on' : 'off' ?>"><a href="common/login.php">Đăng nhập</a></li>
 
-						<li class="<?php echo isset($_SESSION["ID"]) ? 'on' : 'off' ?>" ><?php echo $_SESSION["user_name"]; ?></li>
+						
 						<li class="<?php echo isset($_SESSION["ID"]) ? 'on' : 'off' ?>">
-							<form method="POST" id="logoutForm">
-								<input type="submit" name="logout" value="Đăng xuất">
-							</form>
+							<a href="/ACC_APP/user/layout/account.php" style="color: white;margin-top: 7px;">Tài Khoản <i class="fa-solid fa-user"></i></a>
+							
 						</li>
 					</ul>
 				</div>
@@ -265,7 +264,7 @@
 				<div class="sub-header mb-3">Sản phẩm nổi bật</div>
 				<div class="products row">
 					<?php
-						$sql = "SELECT p.name, p.price, p.thumb, p.short_desc, p.slug FROM products p WHERE hot=true LIMIT 10";
+						$sql = "SELECT p.name, p.price, p.thumb, p.short_desc, p.slug FROM products p WHERE hot= 1 LIMIT 10";
 
 						$result = mysqli_query($conn, $sql);
 						while ($row = mysqli_fetch_assoc($result)) {

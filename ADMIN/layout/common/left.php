@@ -38,8 +38,9 @@
                         <i class="fas fa-chevron-right"></i>
                     </span>
                     <ul class="sub_pages">
-                        <li><a href="./">Create</a></li>
-                        <li><a href="./">List Orders</a></li>
+                        <li><a href="./ListOrder_CTN.php">Danh sách chờ tiếp nhận</a></li>
+                        <li><a href="./ListOrder_CTT.php">Danh sách chờ nhận hàng</a></li>
+                        <li><a href="./ListOrder_LSDH.php">Lịch sử đơn hàng</a></li>
                     </ul>
                 </li>
                 <li class="page">Vendors<span id='icon'>
