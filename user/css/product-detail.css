@@ -199,6 +199,7 @@
 }
 .comment .container .feedback .main-comment-container {
 	border-left: solid 1px black;
+	margin-bottom: 30px;
 }
 .comment .container .feedback .main-comment-container .bl button {
 	display: block;

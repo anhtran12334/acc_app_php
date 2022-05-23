@@ -1,9 +1,17 @@
 <?php 
+    ob_start();
     session_start();
     include "./../../common/connectSQL.php";
     if(isset($_GET['slug'])){
         $slug = $_GET['slug'];
     }
+    if (!function_exists('currency_format')) {
+		function currency_format($number, $suffix = 'đ') {
+			if (!empty($number)) {
+				return number_format($number, 0, ',', '.') . "{$suffix}";
+			}
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,7 +106,7 @@
                 
                 <div class="price col-5">
                     <div class="price-item">
-                        <span style="color:red; font-weight:bold;font-size:25px"><?php echo $row_d['price'] ?></span><span>| Giá bao gồm 10% VAT</span>
+                        <span style="color:red; font-weight:bold;font-size:25px"><?php echo currency_format($row_d['price']) ?></span><span>| Giá bao gồm 10% VAT</span>
                     </div>
                     <div class="move">
                         <i class="fa-solid fa-truck-fast"></i><span>   MIỄN PHÍ VẬN CHUYỂN TOÀN QUỐC</span>
@@ -317,9 +325,33 @@
                 </div>
                   </div>
             </div>
+            <?php
+                // session_start();
+                // include "./../../common/connectSQL.php";
+                if(isset($_GET['save'])){
+                    $sub_comment = $_GET['sub_comment'];
+                    $parent_comment_id = $_GET['parent-comment-id'];
+                    $date = gmdate("Y-m-d H:i:s", time()+7*60*60);
+                    $sql_subi = "INSERT INTO `sub_comments`( `comment_id`, `comment`, `created_date`, `user_id`) VALUES ( $parent_comment_id,'$sub_comment','$date',".$_SESSION['ID'].")";
+                    $qr_subi = mysqli_query($conn,$sql_subi);
+                    header('Location:./product-detail.php?slug='.$slug);
+                    
+                }
+
+                if(isset($_GET['submit'])){
+                    $comment = $_GET['comment'];
+                    // $userId = $_SESSION["ID"];
+                    // $productId = $_GET['product-id'];
+                    $date = gmdate("Y-m-d H:i:s", time()+7*60*60);
+                    $sql = "INSERT INTO `comments`(`user_id`, `product_id`, `comment`, `created_date`) VALUES (".$_SESSION['ID'].",".$row_d['id'].",'$comment','$date')";
+                    $qr = mysqli_query($conn,$sql);
+                    var_dump($qr);
+                    header('Location:./product-detail.php?slug='.$slug);
+                    }
+                ?>
             <div class="comment">
                 <div class="container">
-                    <h5>Bình luận về Apple iPhone 13 Pro Max - Chính hãng VN/A</h5>
+                    <h5>Bình luận về <?php echo $row_d['name'] ?></h5>
                     <!-- <a href="./../../common/connectSQL.php"; -->
                     <?php 
                         
@@ -327,12 +359,15 @@
                         $sql_up = "SELECT * FROM comments join users on comments.user_id = users.id WHERE comments.product_id = " . $row_d['id'];
                         $qr_up = mysqli_query($conn,$sql_up);
                     ?>
-                    <form method="GET" action="./save-comment.php">
+                    <?php if(isset($_SESSION['ID'])){ ?>
+                    <form method="GET" action="">
+                        <input type="hidden" name="slug" value="<?php echo $slug?>">
                         <textarea placeholder="Nội dung tối thiểu 15 ký tự *" cols="120" name ="comment" rows="4"></textarea >
                         <br> 
                        
                         <button type="submit" name="submit"><i class="fa-solid fa-paper-plane"></i> GỬI BÌNH LUẬN</button>
                     </form>
+                    <?php } ?>
                     <div class="feedback row">
                         
                         <?php while($rows = $qr_up -> fetch_row()){ ?>
@@ -361,10 +396,13 @@
                             <?php } ?>
                         </div>
                         <div class="bl">
+                        <?php if(isset($_SESSION['ID'])){ ?>
                                 <button type="button" class="btn-show-comment">Nhập bình luận của bạn       <i class="fa-solid fa-paper-plane"></i></button>
-                                </div>
+                            <?php } ?>    
+                            </div>
                                 
-                                <form class="na"  method="GET" action="./save-comment.php">
+                                <form class="na"  method="GET" action="">
+                                    <input type="hidden" name="slug" value="<?php echo $slug?>">
                                     <br>
                                     <textarea placeholder="Nội dung tối thiểu 15 ký tự *" cols="100" rows="4" name="sub_comment" ></textarea >
                                     <br> 
