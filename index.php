@@ -68,10 +68,19 @@
 						<button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
 					</form>
 					<div class="header-cart">
-						<a href="user/layout/cart.php">
-							<i class="fa-solid fa-cart-shopping"></i>
-							<span class="amount badge badge-primary">1</span>
-						</a>
+						<?php 
+                            if(isset($_SESSION['ID']))
+                            { 
+                                echo '<a href="/ACC_APP/user/layout/cart.php" ><i class="fa-solid fa-cart-shopping"></i>
+								<span class="amount badge badge-primary"> '. $tongsl.'</span>
+							</a>';
+                            }else{
+                                echo '<a href="/ACC_APP/user/layout/cart_empty.php" ><i class="fa-solid fa-cart-shopping"></i>
+								<span class="amount badge badge-primary">0</span></a>';
+                            }
+                            
+                         ?>
+						
 					</div>
 				</div>
 			</div>

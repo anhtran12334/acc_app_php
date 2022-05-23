@@ -16,7 +16,7 @@
         $password = $_POST['password'];
         $address = $_POST['address'];
         
-        $sql = "INSERT INTO `users`(`email`, `password`, `first_name`, `last_name`, `phone`, `address`, `created_date`, `user_name`, `role`) VALUES ('$email','$password','$first_name','$last_name','$sdt','$address','$created_date','$user_name','$role')";
+        $sql = "INSERT INTO `users`(`email`, `password`, `first_name`, `last_name`,`full_name`, `phone`, `address`, `created_date`, `user_name`, `role`) VALUES ('$email','$password','$first_name','$last_name','$last_name  $first_name','$sdt','$address','$created_date','$user_name','$role')";
         $qr = mysqli_query($conn,$sql);
         header("location: ListUsers.php");
         var_dump($qr);
@@ -54,6 +54,7 @@
                     <input type ="text" name="first_name" class="col-6"><br><br>
                     <label>Last Name</label><br>
                     <input type ="text" name="last_name" class="col-6"><br><br>
+                    
                     <label>User Name </label><br>
                     <input type ="text" name="user_name" class="col-6"><br><br>
                     <label>Email</label><br>

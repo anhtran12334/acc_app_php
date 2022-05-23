@@ -44,10 +44,23 @@
 				//var_dump($_SESSION['giohang'][$i][3]);
 			?>
 			<div class="header-cart">
-				<a href="cart.php">
+			<?php 
+				if(isset($_SESSION['ID']))
+				{ 
+					echo '<a href="./cart.php" ><i class="fa-solid fa-cart-shopping"></i>
+					<span class="amount badge badge-primary"> '. $tongsl.'</span>
+				</a>';
+				}else{
+					echo '<a href="./cart_empty.php" ><i class="fa-solid fa-cart-shopping"></i>
+					<span class="amount badge badge-primary">0</span></a>';
+				}
+				
+			?>
+			
+				<!-- <a href="cart.php">
 					<i class="fa-solid fa-cart-shopping"></i>
 					<span class="amount badge badge-primary"><?php echo $tongsl ?></span>
-				</a>
+				</a> -->
 			</div>
 		</div>
 	</div>

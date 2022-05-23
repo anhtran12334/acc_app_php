@@ -143,10 +143,19 @@
                         <input type="hidden" name="price" value="<?php echo $row_d['price']?>">
                         <input type="hidden" name="image" value="<?php echo $row_d['thumb']?>">
                         <input type="hidden" name="quantity" value="1">
-                        <a href="./cart.php" >
+                        <?php 
+                            if(isset($_SESSION['ID']))
+                            { 
+                                echo '<a href="./cart.php"><input type="submit" name="save" style ="border-style: none; padding: 20px;" value=" MUA NGAY Giao hàng tận nhà (COD) hoặc Nhận tại của hàng" class="buy-now ">
+                                </a>" ';
+                            }else{
+                                echo '<a href="./cart_empty.php" > <input type="button" name="save" style ="border-style: none; padding: 20px;" value=" MUA NGAY Giao hàng tận nhà (COD) hoặc Nhận tại của hàng" class="buy-now "></a>';
+                            }
+                            
+                         ?>
                         
-                        <input type="submit" name="save" style ="border-style: none; padding: 20px;" value=" MUA NGAY Giao hàng tận nhà (COD) hoặc Nhận tại của hàng" class="buy-now ">
-                        </a>
+                        <!-- <input type="submit" name="save" style ="border-style: none; padding: 20px;" value=" MUA NGAY Giao hàng tận nhà (COD) hoặc Nhận tại của hàng" class="buy-now ">
+                        </a> -->
                     </form>
                         
                         <!-- <div class="buy-now "><h6>MUA NGAY</h6><span>Giao hàng tận nhà (COD) hoặc Nhận tại của hàng</span></div> -->

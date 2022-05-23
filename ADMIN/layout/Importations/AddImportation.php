@@ -35,8 +35,8 @@
         echo "<pre>" . print_r($_POST, true) . "</pre>";
         $products = $_POST['product'];
         $products = array_values($products);// convert array de lap for
-        // $quantity = $_POST['quantity'];
-        // $price= $_POST['price'];
+         $quantity = $_POST['quantity'];
+         $price= $_POST['price'];
         for($i = 0 ; $i < count($products) ; $i++){
             $product_id = $products[$i]['id'];
             $quantity = $products[$i]['quantity'];
@@ -54,7 +54,7 @@
         $product_id = $products[$i]['id'];
         $sql_update = "UPDATE products join importation_products on products.id = importation_products.product_id join importations on importations.id = importation_products.importation_id set products.quantity = products.quantity + importation_products.quantity where importations.id = $idm and products.id = $product_id"; 
         $qr_update = mysqli_query($conn,$sql_update);
-        var_dump($qr_update);
+        //var_dump($qr_update);
         }
         //
     }
@@ -127,6 +127,7 @@
                         <label>Đơn giá</label>
                         <input type="text" name="product[product0][price]" class="col-4"><br/><br>
                     </div>
+                    
                     <br>
                     <button id="btnAddItem" type="button" class="btn btn-primary">+</button><br>
                     <button id="btnSubmit" name="upload" type="submit" class="end text-right blue" >Lưu</button>
@@ -146,7 +147,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-<script src="./../../../bai9_jquery/bai9_jquery/js/jquery.min.js"></script>
+
 <script src="../script/Dasboard.js"></script>
 
 <script>
@@ -165,13 +166,13 @@
                     const content = `
                     <div class="item-row mb-5">
                     <label>Tên Sản phẩm</label>
-                    <select name="product[product${indexOfImportationItem}]"[id]">
+                    <select name="product[product${indexOfImportationItem}][id]">
                         ${result}
                     </select><br><br>
                     <label>Số lượng </label>
-                    <input type="text" name="product[product${indexOfImportationItem}]"[quantity]" class="col-4"><br/><br>
+                    <input type="text" name="product[product${indexOfImportationItem}][quantity]" class="col-4"><br/><br>
                     <label>Đơn giá</label>
-                    <input type="text" name="product[product${indexOfImportationItem}]"[price]" class="col-4"><br/><br>
+                    <input type="text" name="product[product${indexOfImportationItem}][price]" class="col-4"><br/><br>
                     </div>
                     `;
                     $(content).insertBefore('#btnAddItem');

@@ -1,6 +1,8 @@
 <?php 
+    session_start();
     include "./../../common/connectSQL.php";
-    $sql= "SELECT * FROM orders join users on orders.user_id = users.id";
+    //var_dump($_SESSION['ID']);
+    $sql= "SELECT * FROM orders join users on orders.user_id = users.id WHERE orders.user_id = ".$_SESSION['ID'] ;
     $qr = mysqli_query($conn, $sql);
     $rows = mysqli_fetch_array($qr);
     //var_dump($qr);
@@ -141,7 +143,8 @@
                                 <td><?php echo $row[2] ?></td>
                                 <td><?php echo  $row[6] ?></td>
                                 
-                                <td><a href="./order-detail.php?id=<?php echo $row[0] ?>"><i class="fas fa-edit"></i> Detail</a></td>
+                                <td><a href="./order-detail.php?id=<?php echo $row[0] ?>" ><button class="blue"><i class="fas fa-edit"></i> Detail</button></a>
+                                    <a href='./delOrder.php?id=<?php echo $row[0] ?> '><button onclick='return XacNhanXoa()' class="red">Hủy</button></a></td>
                              </tr>
                            <?php }} 
                            mysqli_data_seek($qr, 0);?>
@@ -184,7 +187,7 @@
                                 
                                 <td>
                                     <a href="./order-detail.php?id=<?php echo $row[0] ?>" class="blue"><i class="fas fa-edit"></i> Detail</a>
-                                    <button class="green"><a href="./account.php?status=1&id=<?php echo $row[0] ?>">Đã xác nhận</a></button>
+                                    <a href="./account.php?status=1&id=<?php echo $row[0] ?>"><button class="green">Đã xác nhận</button></a>
                                 </td>
                              </tr>
                            <?php }}
@@ -205,7 +208,7 @@
 								<th scope="col">Email</th>
 								<th scope="col">Address</th>
 								 <th scope="col">Tổng giá trị đơn hàng</th> 
-								<th scope="col">Action</th>
+								<th scope="col" >Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -226,7 +229,9 @@
                                 <td><?php echo $row[2] ?></td>
                                 <td><?php echo  $row[6] ?></td>
                                 
-                                <td><a href="./order-detail.php?id=<?php echo $row[0] ?>"><i class="fas fa-edit"></i> Detail</a></td>
+                                <td>
+                                    <a href="./order-detail.php?id=<?php echo $row[0] ?>" ><button class="blue"><i class="fas fa-edit"></i> Detail</button></a>
+                                </td>
                              </tr>
                            <?php }} 
                            mysqli_data_seek($qr, 0);?>
@@ -245,6 +250,11 @@
 </div>
 <?php include  "./common/footer.php" ?>
 </body>
+<script>
+    function XacNhanXoa(){
+       return confirm("Bạn có chắc chắc muốn xóa danh mục nay hay không ?");
+    }
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">

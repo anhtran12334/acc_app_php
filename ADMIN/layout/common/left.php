@@ -21,16 +21,16 @@
                             <i class="fas fa-chevron-right"></i>
                             </span>
                 <ul class="sub_pages">
-                    <li><a href="./../Manage_user/AddUser.php">Create</a></li>
-                    <li><a href="./../Manage_user/ListUsers.php">List Users</a></li>
+                    <li><a href="./../users/AddUser.php">Create</a></li>
+                    <li><a href="./../users/ListUsers.php">List Users</a></li>
                 </ul>
                 </li>
                 <li class="page">Phiếu nhập<span id='icon'>
                             <i class="fas fa-chevron-right"></i>
                             </span>
                 <ul class="sub_pages">
-                    <li><a href="./../Manage_importation/ListImportations.php">DS Phiếu nhập</a></li>
-                    <li><a href="./../Manage_importation/AddImportation.php">Tạo phiếu nhập</a></li>
+                    <li><a href="./../Importations/ListImportations.php">DS Phiếu nhập</a></li>
+                    <li><a href="./../Importations/AddImportation.php">Tạo phiếu nhập</a></li>
                 </ul>
                 </li>
                 <li class="page">Order
@@ -47,8 +47,8 @@
                             <i class="fas fa-chevron-right"></i>
                             </span>
                 <ul class="sub_pages">
-                    <li><a href="./../Manage_vendors/AddVendors.php">Create</a></li>
-                    <li><a href="./../Manage_vendors/ListVendors.php">List Vendors</a></li>
+                    <li><a href="./../Vendors/AddVendors.php">Create</a></li>
+                    <li><a href="./../Vendors/ListVendors.php">List Vendors</a></li>
                 </ul>
                 </li>
                 <li><a href="">Kho</a></li>

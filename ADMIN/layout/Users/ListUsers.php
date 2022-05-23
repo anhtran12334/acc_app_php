@@ -55,12 +55,12 @@
                             <td width=200px>".$i."</td>
                             <td width=200px>".$row[4]. " ". $row[3]."</td>
                             <td width=200px>".$row[1]."</td>
-                            <td width=200px>".$row[5]."</td>
                             <td width=200px>".$row[6]."</td>
-                            <td width=200px>".$row[8]."</td>
-                            <td width=200px>".$row[2]."</td>
-                            <td width=200px>".$row[9]."</td>
                             <td width=200px>".$row[7]."</td>
+                            <td width=200px>".$row[9]."</td>
+                            <td width=200px>".$row[2]."</td>
+                            <td width=200px>".$row[10]."</td>
+                            <td width=200px>".$row[8]."</td>
                             <td width=200px><button class='blue'><a href='./EditUser.php?id=".$row['0'] ."'>Sửa</a></button><button class='red'><a href='./DeleteUser.php?id=".$row[0] ."'onclick='return XacNhanXoa()'>Xóa</a></button></td>
                             
                         </tr>";

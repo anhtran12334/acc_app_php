@@ -1,14 +1,5 @@
 <?php 
-    //require "./../connectSQL.php";
-    //include "../"
-    //require "./common/requireLogin.php";
-    session_start();
-    var_dump($_SESSION['ID']);
-    if(isset($_SESSION['ID'])){
-        include "./../connectSQL.php";
-    }else{
         include "../../../common/authorization.php";
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
